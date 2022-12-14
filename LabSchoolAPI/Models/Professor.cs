@@ -5,7 +5,7 @@ namespace LabSchoolAPI.Models
 {
     public class Professor : Pessoa
     {
-        public EnumFormacaoAcademica FormacaoAcademica { get; set; }
+        public EnumFormacaoAcademica Formacao { get; set; }
         public EnumExperiencia Experiencia { get; set; }
         public EnumEstado Estado { get; set; }
       

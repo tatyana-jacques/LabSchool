@@ -44,10 +44,10 @@ namespace LabSchoolAPI.Migrations
                     b.Property<float>("Nota")
                         .HasColumnType("real");
 
-                    b.Property<int>("QtdAtendimentos")
+                    b.Property<int>("Atendimentos")
                         .HasColumnType("int");
 
-                    b.Property<string>("SituacaoMatricula")
+                    b.Property<string>("Situacao")
                         .IsRequired()
                         .HasMaxLength(80)
                         .HasColumnType("nvarchar(80)");
@@ -81,7 +81,7 @@ namespace LabSchoolAPI.Migrations
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
 
-                    b.Property<int>("QtdAtendimentos")
+                    b.Property<int>("Atendimentos")
                         .HasColumnType("int");
 
                     b.Property<string>("Telefone")
@@ -118,7 +118,7 @@ namespace LabSchoolAPI.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("FormacaoAcademica")
+                    b.Property<string>("Formacao")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");

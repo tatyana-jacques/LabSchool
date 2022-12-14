@@ -9,6 +9,7 @@ using LabSchoolAPI.LabSchool;
 using LabSchoolAPI.Models;
 using AutoMapper;
 using LabSchoolAPI.DTO;
+using LabSchoolAPI.Services;
 
 namespace LabSchoolAPI.Controllers
 {
@@ -45,6 +46,9 @@ namespace LabSchoolAPI.Controllers
             {
                 return NotFound();
             }
+
+          
+
 
             return aluno;
         }
@@ -83,13 +87,45 @@ namespace LabSchoolAPI.Controllers
         // POST: api/Alunos
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Aluno>> PostAluno(Aluno aluno)
+        public async Task<ActionResult<Aluno>> PostAluno(AlunoDTOPost alunoDTOPost)
         {
-            _context.Alunos.Add(aluno);
+
+            try
+            {
+              
+            Aluno aluno = _mapper.Map<Aluno>(alunoDTOPost);
+            aluno.Atendimentos = 0;
+
+            var alunos = await _context.Alunos.ToListAsync();
+            var validacaoAluno = AlunoPostValidacao.ValidacaoALuno(aluno);
+
+                if (validacaoAluno != string.Empty)
+                {
+                    return BadRequest(validacaoAluno.ToString());
+                }
+
+                foreach (Aluno x in alunos)
+                {
+                    if (x.CPF == aluno.CPF)
+                        return Conflict("CPF já registrado.");
+
+                }
+
+
+            _context.Entry(aluno).State = EntityState.Added;
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetAluno", new { id = aluno.Codigo }, aluno);
+            var alunoDTO = _mapper.Map<AlunoDTO>(aluno);
+
+            return CreatedAtAction("GetAluno", new { id = aluno.Codigo }, alunoDTO);
+            }
+
+            catch
+            {
+                return BadRequest("Dados inválidos.");
+            }
         }
+
 
         // DELETE: api/Alunos/5
         [HttpDelete("{id}")]

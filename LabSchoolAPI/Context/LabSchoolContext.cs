@@ -16,7 +16,7 @@ namespace LabSchoolAPI.LabSchool
         {
 
             modelBuilder.Entity<Professor>()
-                .Property(x => x.FormacaoAcademica)
+                .Property(x => x.Formacao)
                 .HasConversion<string>()
                 .HasMaxLength(100);
 
@@ -31,12 +31,12 @@ namespace LabSchoolAPI.LabSchool
                 .HasMaxLength(100);
 
             modelBuilder.Entity<Aluno>()
-                .Property(x => x.SituacaoMatricula)
+                .Property(x => x.Situacao)
                 .HasConversion<string>()
                 .HasMaxLength(80);
 
             modelBuilder.Entity<Aluno>()
-               .Property(x => x.SituacaoMatricula)
+               .Property(x => x.Situacao)
                .HasConversion<string>()
                .HasMaxLength(80);
 

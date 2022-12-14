@@ -2,6 +2,6 @@
 {
     public class Pedagogo: Pessoa
     {
-        public int QtdAtendimentos { get; set; }
+        public int Atendimentos { get; set; }
     }
 }

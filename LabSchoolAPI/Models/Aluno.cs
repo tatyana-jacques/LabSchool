@@ -5,11 +5,11 @@ namespace LabSchoolAPI.Models
 {
     public class Aluno: Pessoa
     {
-        public EnumSituacaoMatricula SituacaoMatricula { get; set; }
+        public EnumSituacaoMatricula Situacao { get; set; }
 
         [Range (0,10)]
         public float Nota { get; set; }
-        public int QtdAtendimentos { get; set; }
+        public int Atendimentos { get; set; }
 
         
     }

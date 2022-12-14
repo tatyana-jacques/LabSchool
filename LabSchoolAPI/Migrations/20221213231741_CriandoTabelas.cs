@@ -17,9 +17,9 @@ namespace LabSchoolAPI.Migrations
                 {
                     Codigo = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    SituacaoMatricula = table.Column<string>(type: "nvarchar(80)", maxLength: 80, nullable: false),
+                    Situacao = table.Column<string>(type: "nvarchar(80)", maxLength: 80, nullable: false),
                     Nota = table.Column<float>(type: "real", nullable: false),
-                    QtdAtendimentos = table.Column<int>(type: "int", nullable: false),
+                    Atendimentos = table.Column<int>(type: "int", nullable: false),
                     Nome = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
                     Telefone = table.Column<string>(type: "nvarchar(13)", maxLength: 13, nullable: false),
                     DataNascimento = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -36,7 +36,7 @@ namespace LabSchoolAPI.Migrations
                 {
                     Codigo = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    QtdAtendimentos = table.Column<int>(type: "int", nullable: false),
+                    Atendimentos = table.Column<int>(type: "int", nullable: false),
                     Nome = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
                     Telefone = table.Column<string>(type: "nvarchar(13)", maxLength: 13, nullable: false),
                     DataNascimento = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -53,7 +53,7 @@ namespace LabSchoolAPI.Migrations
                 {
                     Codigo = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    FormacaoAcademica = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Formacao = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Experiencia = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Estado = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Nome = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),

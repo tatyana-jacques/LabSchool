@@ -13,7 +13,7 @@ namespace LabSchoolAPI.Migrations
             migrationBuilder.Sql(
              "INSERT " +
              "INTO Alunos" +
-                 "(Nome,Telefone,DataNascimento,CPF,SituacaoMatricula,Nota,QtdAtendimentos) " +
+                 "(Nome,Telefone,DataNascimento,CPF,Situacao,Nota,Atendimentos) " +
              "VALUES" +
                  "('Bart Simpson','11-11111-1212','2014-10-29',11839750073,'IRREGULAR',3.5,0)," +
                  "('Lisa Simpson','11-22222-2222','2012-10-29',17158947076,'ATIVO',10,0)," +
@@ -24,7 +24,7 @@ namespace LabSchoolAPI.Migrations
             migrationBuilder.Sql(
                 "INSERT " +
                 "INTO Professores" +
-                    "(Nome,Telefone,DataNascimento,CPF,Estado,Experiencia,FormacaoAcademica) " +
+                    "(Nome,Telefone,DataNascimento,CPF,Estado,Experiencia,Formacao) " +
                 "VALUES" +
                     "('Walter White','14-229901882','1982-10-30',40539019011,'ATIVO','FULL_STACK','MESTRADO')," +
                     "('Jesse Pinkman','44-11111-1992','1997-10-30',961072950,'ATIVO','BACK_END','GRADUACAO_INCOMPLETA')," +
@@ -35,7 +35,7 @@ namespace LabSchoolAPI.Migrations
             migrationBuilder.Sql(
                 "INSERT " +
                 "INTO Pedagogos" +
-                    "(Nome,Telefone,DataNascimento,CPF,QtdAtendimentos) " +
+                    "(Nome,Telefone,DataNascimento,CPF,Atendimentos) " +
                 "VALUES" +
                     "('John Snow','11-67333-4454','2000-10-30',62316840086,0)," +
                     "('Sansa Stark','22-22333-4454','2004-10-30',49850253053,0)," +
