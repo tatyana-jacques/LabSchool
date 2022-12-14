@@ -41,6 +41,8 @@ namespace LabSchoolAPI.LabSchool
                .HasMaxLength(80);
 
             base.OnModelCreating(modelBuilder);
+            modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);
+
         }
 
 
