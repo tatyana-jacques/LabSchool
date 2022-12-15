@@ -30,12 +30,13 @@ namespace LabSchoolAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Codigo"));
 
+                    b.Property<int>("Atendimentos")
+                        .HasColumnType("int");
+
                     b.Property<long>("CPF")
-                        .IsRequired()
                         .HasColumnType("bigint");
 
                     b.Property<DateTime>("DataNascimento")
-                        .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Nome")
@@ -44,12 +45,7 @@ namespace LabSchoolAPI.Migrations
                         .HasColumnType("nvarchar(150)");
 
                     b.Property<float>("Nota")
-                        .IsRequired()
                         .HasColumnType("real");
-
-                    b.Property<int>("Atendimentos")
-                        .IsRequired()
-                        .HasColumnType("int");
 
                     b.Property<string>("Situacao")
                         .IsRequired()
@@ -74,21 +70,19 @@ namespace LabSchoolAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Codigo"));
 
+                    b.Property<int>("Atendimentos")
+                        .HasColumnType("int");
+
                     b.Property<long>("CPF")
-                        .IsRequired()
                         .HasColumnType("bigint");
 
                     b.Property<DateTime>("DataNascimento")
-                        .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Nome")
                         .IsRequired()
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
-
-                    b.Property<int>("Atendimentos")
-                        .HasColumnType("int");
 
                     b.Property<string>("Telefone")
                         .IsRequired()
@@ -109,11 +103,9 @@ namespace LabSchoolAPI.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Codigo"));
 
                     b.Property<long>("CPF")
-                        .IsRequired()
                         .HasColumnType("bigint");
 
                     b.Property<DateTime>("DataNascimento")
-                        .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Estado")

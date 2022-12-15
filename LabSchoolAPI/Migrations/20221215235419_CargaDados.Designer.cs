@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LabSchoolAPI.Migrations
 {
     [DbContext(typeof(LabSchoolContext))]
-    [Migration("20221213231858_CargaDados")]
+    [Migration("20221215235419_CargaDados")]
     partial class CargaDados
     {
         /// <inheritdoc />
@@ -33,6 +33,9 @@ namespace LabSchoolAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Codigo"));
 
+                    b.Property<int>("Atendimentos")
+                        .HasColumnType("int");
+
                     b.Property<long>("CPF")
                         .HasColumnType("bigint");
 
@@ -46,9 +49,6 @@ namespace LabSchoolAPI.Migrations
 
                     b.Property<float>("Nota")
                         .HasColumnType("real");
-
-                    b.Property<int>("Atendimentos")
-                        .HasColumnType("int");
 
                     b.Property<string>("Situacao")
                         .IsRequired()
@@ -73,6 +73,9 @@ namespace LabSchoolAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Codigo"));
 
+                    b.Property<int>("Atendimentos")
+                        .HasColumnType("int");
+
                     b.Property<long>("CPF")
                         .HasColumnType("bigint");
 
@@ -83,9 +86,6 @@ namespace LabSchoolAPI.Migrations
                         .IsRequired()
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
-
-                    b.Property<int>("Atendimentos")
-                        .HasColumnType("int");
 
                     b.Property<string>("Telefone")
                         .IsRequired()

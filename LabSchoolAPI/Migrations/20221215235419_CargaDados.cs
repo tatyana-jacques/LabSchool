@@ -11,15 +11,15 @@ namespace LabSchoolAPI.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.Sql(
-             "INSERT " +
-             "INTO Alunos" +
-                 "(Nome,Telefone,DataNascimento,CPF,Situacao,Nota,Atendimentos) " +
-             "VALUES" +
-                 "('Bart Simpson','11-11111-1212','2014-10-29',11839750073,'IRREGULAR',3.5,0)," +
-                 "('Lisa Simpson','11-22222-2222','2012-10-29',17158947076,'ATIVO',10,0)," +
-                 "('Meggie Simpson','11-20002-2200','2019-10-29',63701210020,'ATIVO',9,0)," +
-                 "('Milhouse Van Houten','11-33333-2222','2014-10-29',30119137062,'ATIVO',8,0)," +
-                 "('Nelson Muntz','11-44333-4444','2007-10-29',95704094015,'INATIVO',2,0)");
+          "INSERT " +
+          "INTO Alunos" +
+              "(Nome,Telefone,DataNascimento,CPF,Situacao,Nota,Atendimentos) " +
+          "VALUES" +
+              "('Bart Simpson','11-11111-1212','2014-10-29',11839750073,'IRREGULAR',3.5,0)," +
+              "('Lisa Simpson','11-22222-2222','2012-10-29',17158947076,'ATIVO',10,0)," +
+              "('Meggie Simpson','11-20002-2200','2019-10-29',63701210020,'ATIVO',9,0)," +
+              "('Milhouse Van Houten','11-33333-2222','2014-10-29',30119137062,'ATIVO',8,0)," +
+              "('Nelson Muntz','11-44333-4444','2007-10-29',95704094015,'INATIVO',2,0)");
 
             migrationBuilder.Sql(
                 "INSERT " +
@@ -41,6 +41,7 @@ namespace LabSchoolAPI.Migrations
                     "('Sansa Stark','22-22333-4454','2004-10-30',49850253053,0)," +
                     "('Tyrion Lannister','33-77333-4454','1990-10-30',39125106015,0)," +
                     "('Sandor Clegane','11-33333-2222','1995-10-30',89089606009,0)");
+
 
         }
 

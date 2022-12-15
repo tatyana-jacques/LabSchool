@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace LabSchoolAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class CriandoTabelas : Migration
+    public partial class CriacaoBanco : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
