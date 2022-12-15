@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LabSchoolAPI.LabSchool;
 using LabSchoolAPI.Models;
@@ -28,36 +23,34 @@ namespace LabSchoolAPI.Controllers
             _mapper = mapper;
         }
 
-        
+
         [HttpGet]
         public async Task<ActionResult<IEnumerable<AlunoDTO>>> GetAlunos(string? situacao)
         {
             var alunos = await _context.Alunos.ToListAsync();
 
             if (situacao is not null)
-            {  
+            {
                 var alunosQuery = alunos.Where(x => x.Situacao.ToString() == situacao.ToUpper());
-                
-                if (alunosQuery.Count() >= 1)
-                {
-                List<AlunoDTO> alunosDTO = _mapper.Map<List<AlunoDTO>>(alunosQuery);
-                return alunosDTO;
-                }
-                
-                else
+
+                if (alunosQuery.Count() == 0)
                 {
                     return NotFound("Situação inexistente.");
-                }         
+
+                }
+
+                List<AlunoDTO> alunosDTO = _mapper.Map<List<AlunoDTO>>(alunosQuery);
+                return alunosDTO;
             }
 
             else
             {
-            List<AlunoDTO> alunosDTO = _mapper.Map<List<AlunoDTO>>(alunos);
-            return alunosDTO;
+                List<AlunoDTO> alunosDTO = _mapper.Map<List<AlunoDTO>>(alunos);
+                return alunosDTO;
             }
         }
 
-        
+
         [HttpGet("{codigo}")]
         public async Task<ActionResult<AlunoDTO>> GetAluno(int codigo)
         {
@@ -72,22 +65,22 @@ namespace LabSchoolAPI.Controllers
             return alunoDTO;
         }
 
-        
+
         [HttpPut("{codigo}")]
         public async Task<IActionResult> PutAluno(int codigo, AlunoDTOPut alunoDTOPut)
         {
             try
             {
-            Aluno aluno = await _context.Alunos.FindAsync(codigo);
+                Aluno aluno = await _context.Alunos.FindAsync(codigo);
                 if (aluno == null)
                 {
                     return NotFound("Aluno não encontrado.");
                 }
-            aluno.Situacao = (EnumSituacaoMatricula) Enum.Parse(typeof(EnumSituacaoMatricula), alunoDTOPut.Situacao.ToUpper());
-            _context.Entry(aluno).State = EntityState.Modified;
-            _context.Alunos.Update(aluno);
-            await _context.SaveChangesAsync();
-            
+                aluno.Situacao = (EnumSituacaoMatricula)Enum.Parse(typeof(EnumSituacaoMatricula), alunoDTOPut.Situacao.ToUpper());
+                _context.Entry(aluno).State = EntityState.Modified;
+                _context.Alunos.Update(aluno);
+                await _context.SaveChangesAsync();
+
                 AlunoDTO alunoDTO = _mapper.Map<AlunoDTO>(aluno);
                 return Ok(alunoDTO);
             }
@@ -95,10 +88,10 @@ namespace LabSchoolAPI.Controllers
             {
                 return BadRequest("Situação inválida.");
             }
-           
+
         }
 
-        
+
         [HttpPost]
         public async Task<ActionResult<Aluno>> PostAluno(AlunoDTOPost alunoDTOPost)
         {
@@ -110,7 +103,7 @@ namespace LabSchoolAPI.Controllers
 
                 if (validacaoAluno != string.Empty)
                 {
-                    return StatusCode(StatusCodes.Status406NotAcceptable,validacaoAluno.ToString());
+                    return StatusCode(StatusCodes.Status406NotAcceptable, validacaoAluno.ToString());
                 }
 
                 var resultado = alunos.Where(x => x.CPF == alunoDTOPost.CPF).FirstOrDefault();
@@ -124,7 +117,7 @@ namespace LabSchoolAPI.Controllers
 
                 var alunoDTO = _mapper.Map<AlunoDTO>(aluno);
 
-                return CreatedAtAction("GetAluno", new { id = aluno.Codigo }, alunoDTO);
+                return CreatedAtAction("GetAluno", new { codigo = aluno.Codigo }, alunoDTO);
             }
 
             catch
@@ -134,25 +127,27 @@ namespace LabSchoolAPI.Controllers
         }
 
 
-        // DELETE: api/Alunos/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAluno(int id)
+        [HttpDelete("{codigo}")]
+        public async Task<IActionResult> DeleteAluno(int codigo)
         {
-            var aluno = await _context.Alunos.FindAsync(id);
-            if (aluno == null)
+            try
+            {
+                var aluno = await _context.Alunos.FindAsync(codigo);
+                _context.Alunos.Remove(aluno);
+                await _context.SaveChangesAsync();
+                return NoContent();
+            }
+            catch
             {
                 return NotFound();
+
             }
 
-            _context.Alunos.Remove(aluno);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
         }
 
-        private bool AlunoExists(int id)
+        private bool AlunoExists(int codigo)
         {
-            return _context.Alunos.Any(e => e.Codigo == id);
+            return _context.Alunos.Any(e => e.Codigo == codigo);
         }
     }
 }

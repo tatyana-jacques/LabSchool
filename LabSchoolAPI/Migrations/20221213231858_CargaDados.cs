@@ -28,9 +28,9 @@ namespace LabSchoolAPI.Migrations
                 "VALUES" +
                     "('Walter White','14-229901882','1982-10-30',40539019011,'ATIVO','FULL_STACK','MESTRADO')," +
                     "('Jesse Pinkman','44-11111-1992','1997-10-30',961072950,'ATIVO','BACK_END','GRADUACAO_INCOMPLETA')," +
-                    "('Hank Schrader','44-11111-1002','1984-10-30',70685977005,'ATIVO','FULL_STACK','METRADO')," +
+                    "('Hank Schrader','44-11111-1002','1984-10-30',70685977005,'ATIVO','FULL_STACK','MESTRADO')," +
                     "('Gustavo Fring','44-11001-1002','1977-10-30',57408927085,'INATIVO','FRONT_END','GRADUACAO_INCOMPLETA')," +
-                    "('Saul Goodman','44-11998-1882','1980-10-30',86940162062,'INATIVO','FULL-STACK','MESTRADO')");
+                    "('Saul Goodman','44-11998-1882','1980-10-30',86940162062,'INATIVO','FULL_STACK','MESTRADO')");
 
             migrationBuilder.Sql(
                 "INSERT " +

@@ -1,11 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-
-namespace LabSchoolAPI.DTO
+﻿namespace LabSchoolAPI.DTO
 {
-    public class AlunoDTOPost
+    public class PedagogoDTOPost
     {
-        
         public string Nome { get; set; }
 
         public string Telefone { get; set; }
@@ -13,9 +9,9 @@ namespace LabSchoolAPI.DTO
         public DateTime DataNascimento { get; set; }
 
         public long CPF { get; set; }
-      
-        public string Situacao { get; set; }
-       
+
         public float Nota { get; set; }
+
+        public int Atendimentos { get; set; }
     }
 }

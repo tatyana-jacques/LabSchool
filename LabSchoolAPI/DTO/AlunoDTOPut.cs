@@ -7,16 +7,16 @@ namespace LabSchoolAPI.DTO
     public class AlunoDTOPut
     {
 
-        public string Situacao { get; set; }  
+        public string Situacao { get; set; }
 
-        //public static implicit operator AlunoDTOPut(Aluno aluno)
-        //{
-        //    return new AlunoDTOPut
-        //    {
-        //        Situacao = aluno.Situacao.ToString(),
+        public static explicit operator AlunoDTOPut(Aluno aluno)
+        {
+            return new AlunoDTOPut
+            {
+                Situacao = aluno.Situacao.ToString(),
 
-        //    };
-        //}
+            };
+        }
 
     }
 }
