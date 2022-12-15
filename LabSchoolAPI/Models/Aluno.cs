@@ -7,9 +7,9 @@ namespace LabSchoolAPI.Models
     {
         public EnumSituacaoMatricula Situacao { get; set; }
 
-        [Range (0,10)]
+        [Required, Range (0,10)]
         public float Nota { get; set; }
-        public int Atendimentos { get; set; }
+        public int Atendimentos { get; set; } = 0;
 
         
     }

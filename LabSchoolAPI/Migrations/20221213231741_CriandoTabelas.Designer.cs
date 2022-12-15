@@ -34,6 +34,7 @@ namespace LabSchoolAPI.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Codigo"));
 
                     b.Property<long>("CPF")
+                        .IsRequired()
                         .HasColumnType("bigint");
 
                     b.Property<DateTime>("DataNascimento")
@@ -45,6 +46,7 @@ namespace LabSchoolAPI.Migrations
                         .HasColumnType("nvarchar(150)");
 
                     b.Property<float>("Nota")
+                        .IsRequired()
                         .HasColumnType("real");
 
                     b.Property<int>("Atendimentos")
@@ -74,6 +76,7 @@ namespace LabSchoolAPI.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Codigo"));
 
                     b.Property<long>("CPF")
+                        .IsRequired()
                         .HasColumnType("bigint");
 
                     b.Property<DateTime>("DataNascimento")
@@ -85,6 +88,7 @@ namespace LabSchoolAPI.Migrations
                         .HasColumnType("nvarchar(150)");
 
                     b.Property<int>("Atendimentos")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<string>("Telefone")
@@ -106,9 +110,11 @@ namespace LabSchoolAPI.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Codigo"));
 
                     b.Property<long>("CPF")
+                        .IsRequired()
                         .HasColumnType("bigint");
 
                     b.Property<DateTime>("DataNascimento")
+                        .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Estado")

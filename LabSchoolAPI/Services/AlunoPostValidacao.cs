@@ -31,6 +31,7 @@ namespace LabSchoolAPI.Services
                 mensagem = "O telefone deve conter DDD.";
             }
 
+
             return mensagem; 
         }
 

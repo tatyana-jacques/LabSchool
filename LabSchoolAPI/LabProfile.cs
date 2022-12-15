@@ -17,7 +17,12 @@ namespace LabSchoolAPI
            
 
             CreateMap<AlunoDTOPost, Aluno>()
-             .ForMember(dest => dest.Situacao, act => act.MapFrom(act => Enum.Parse (typeof (EnumSituacaoMatricula), act.Situacao)));
+             .ForMember(dest => dest.Situacao, act => act.MapFrom(act => Enum.Parse (typeof (EnumSituacaoMatricula), act.Situacao.ToUpper())));
+
+
+          
+        
+        
 
         }
     }

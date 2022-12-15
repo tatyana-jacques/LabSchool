@@ -7,14 +7,16 @@ namespace LabSchoolAPI.Models
         [Key]
         public int Codigo { get; set; }
         
-        [StringLength(150)]
+        [Required, StringLength(150)]
         public string Nome { get; set; }
         
-        [StringLength(13)]
+        [Required, StringLength(13)]
         public string Telefone { get; set; }
 
+        [Required]
         public DateTime DataNascimento { get; set; }
-
+        
+        [Required]
         public long CPF { get; set; }
 
       
