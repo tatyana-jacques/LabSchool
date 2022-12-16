@@ -23,7 +23,6 @@ namespace LabSchoolAPI.Controllers
         }
 
 
-
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PedagogoDTO>>> GetPedagogos()
         {

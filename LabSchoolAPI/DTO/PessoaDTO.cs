@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace LabSchoolAPI.DTO
 {
-    public class PessoaDTO
+    public abstract class PessoaDTO
     {
       
         public int Codigo { get; set; }
