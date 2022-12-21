@@ -16,9 +16,9 @@ namespace LabSchoolAPI.Services
 
             string mensagem = string.Empty;
 
-            if ((aluno.CPF.ToString()).Length != 11)
+            if ((aluno.CPF.ToString()).Length < 10 || (aluno.CPF.ToString()).Length >11)
             {
-                mensagem = "O CPF deve conter 11 números";
+                mensagem = "O CPF deve conter 11 números ou 10 números caso inicie com 0.";
             }
 
             if (aluno.Nome.Length < 5)

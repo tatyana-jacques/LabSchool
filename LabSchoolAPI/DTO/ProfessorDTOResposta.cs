@@ -2,7 +2,7 @@
 
 namespace LabSchoolAPI.DTO
 {
-    public class ProfessorDTO: PessoaDTO
+    public class ProfessorDTOResposta: PessoaDTO
     {
 
         public string Formacao { get; set; }

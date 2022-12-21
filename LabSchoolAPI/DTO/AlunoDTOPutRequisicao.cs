@@ -4,14 +4,14 @@ using LabSchoolAPI.Enums;
 
 namespace LabSchoolAPI.DTO
 {
-    public class AlunoDTOPut
+    public class AlunoDTOPutRequisicao
     {
 
         public string Situacao { get; set; }
 
-        public static explicit operator AlunoDTOPut(Aluno aluno)
+        public static explicit operator AlunoDTOPutRequisicao(Aluno aluno)
         {
-            return new AlunoDTOPut
+            return new AlunoDTOPutRequisicao
             {
                 Situacao = aluno.Situacao.ToString(),
 

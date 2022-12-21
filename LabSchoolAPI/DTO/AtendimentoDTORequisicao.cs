@@ -1,6 +1,6 @@
 ﻿namespace LabSchoolAPI.DTO
 {
-    public class AtendimentoDTO
+    public class AtendimentoDTORequisicao
     {
         public int codigoAluno { get; set; }
        public int codigoPedagogo { get; set; }

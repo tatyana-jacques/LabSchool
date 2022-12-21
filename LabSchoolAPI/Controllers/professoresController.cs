@@ -4,7 +4,7 @@ using LabSchoolAPI.LabSchool;
 using LabSchoolAPI.Models;
 using AutoMapper;
 using LabSchoolAPI.DTO;
-
+using LabSchoolAPI.Enums;
 
 namespace LabSchoolAPI.Controllers
 {
@@ -23,20 +23,20 @@ namespace LabSchoolAPI.Controllers
 
        
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ProfessorDTO>>> GetProfessores()
+        public async Task<ActionResult<IEnumerable<ProfessorDTOResposta>>> GetProfessores()
         {
             var professores = await _context.Professores.ToListAsync();
-            List<ProfessorDTO> professoresDTO = _mapper.Map<List<ProfessorDTO>>(professores);
+            List<ProfessorDTOResposta> professoresDTO = _mapper.Map<List<ProfessorDTOResposta>>(professores);
             return professoresDTO;
 
         }
 
 
         [HttpGet("{codigo}")]
-        public async Task<ActionResult<ProfessorDTO>> GetProfessor(int codigo)
+        public async Task<ActionResult<ProfessorDTOResposta>> GetProfessor(int codigo)
         {
             var professor = await _context.Professores.FindAsync(codigo);
-            ProfessorDTO professorDTO = _mapper.Map<ProfessorDTO>(professor);
+            ProfessorDTOResposta professorDTO = _mapper.Map<ProfessorDTOResposta>(professor);
 
             if (professor == null)
             {
@@ -48,20 +48,24 @@ namespace LabSchoolAPI.Controllers
 
        
         [HttpPut("{codigo}")]
-        public async Task<IActionResult> PutProfessor(ProfessorDTO professorDTO)
+        public async Task<IActionResult> PutProfessor(int codigo, ProfessorDTORequisicao professorDTO)
         {
             try
             {
-               Professor  professor = _context.Professores.Where(x => x.Codigo == professorDTO.Codigo).AsNoTracking().FirstOrDefault();
+                Professor professor = await _context.Professores.FindAsync(codigo);
                 if (professor == null)
                 {
                     return NotFound("Professor não encontrado.");
                 }
-
-                professor = _mapper.Map<Professor>(professorDTO);
+                professor.Nome = professorDTO.Nome;
+                professor.Telefone=professorDTO.Telefone;
+                professor.DataNascimento= professorDTO.DataNascimento;
+                professor.Formacao = (EnumFormacaoAcademica)Enum.Parse(typeof(EnumFormacaoAcademica), professorDTO.Formacao.ToUpper());
                 _context.Entry(professor).State = EntityState.Modified;
                 _context.Professores.Update(professor);
                 await _context.SaveChangesAsync();
+
+                ProfessorDTOResposta professorDTOResposta = _mapper.Map<ProfessorDTOResposta>(professor);
                 return Ok(professorDTO);
             }
             catch
@@ -72,12 +76,12 @@ namespace LabSchoolAPI.Controllers
         }
 
         [HttpPost]
-            public async Task<ActionResult<Professor>> PostProfessor(ProfessorDTOPost professorDTOPost)
+            public async Task<ActionResult<ProfessorDTOResposta>> PostProfessor(ProfessorDTORequisicao professorDTOPost)
             {
                 try
                 {
                     Professor professor = _mapper.Map<Professor>(professorDTOPost);
-                    var professores = await _context.Alunos.ToListAsync();
+                    var professores = await _context.Professores.ToListAsync();
 
                     var resultado = professores.Where(x => x.CPF == professorDTOPost.CPF).FirstOrDefault();
                     if (resultado is not null)
@@ -88,7 +92,7 @@ namespace LabSchoolAPI.Controllers
                     _context.Entry(professor).State = EntityState.Added;
                     await _context.SaveChangesAsync();
 
-                    var professorDTO = _mapper.Map<ProfessorDTO>(professor);
+                    var professorDTO = _mapper.Map<ProfessorDTOResposta>(professor);
 
                     return CreatedAtAction("GetProfessor", new { codigo = professor.Codigo }, professorDTO);
                 }

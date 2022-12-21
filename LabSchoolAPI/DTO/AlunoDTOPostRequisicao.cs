@@ -3,7 +3,7 @@
 
 namespace LabSchoolAPI.DTO
 {
-    public class AlunoDTOPost
+    public class AlunoDTOPostRequisicao
     {
         
         public string Nome { get; set; }

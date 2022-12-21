@@ -28,7 +28,7 @@ namespace LabSchoolAPI.Controllers
 
 
         [HttpPut]
-        public async Task<IActionResult> PutAtendimento(AtendimentoDTO atendimento)
+        public async Task<IActionResult> PutAtendimento(AtendimentoDTORequisicao atendimento)
         {
             try
             {
@@ -57,8 +57,8 @@ namespace LabSchoolAPI.Controllers
                 _context.Pedagogos.Update(pedagogo);
                 await _context.SaveChangesAsync();
 
-                AlunoDTO alunoDTO = _mapper.Map<AlunoDTO>(aluno);
-                PedagogoDTO pedagogoDTO = _mapper.Map<PedagogoDTO>(pedagogo);
+                AlunoDTOResposta alunoDTO = _mapper.Map<AlunoDTOResposta>(aluno);
+                PedagogoDTOResposta pedagogoDTO = _mapper.Map<PedagogoDTOResposta>(pedagogo);
 
           
                 

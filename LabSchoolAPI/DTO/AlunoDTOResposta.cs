@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace LabSchoolAPI.DTO
 {
-    public class AlunoDTO: PessoaDTO
+    public class AlunoDTOResposta: PessoaDTO
     {
         public string Situacao { get; set; }
         public float Nota { get; set; }

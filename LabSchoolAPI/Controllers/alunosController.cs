@@ -25,7 +25,7 @@ namespace LabSchoolAPI.Controllers
 
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<AlunoDTO>>> GetAlunos(string? situacao)
+        public async Task<ActionResult<IEnumerable<AlunoDTOResposta>>> GetAlunos(string? situacao)
         {
             var alunos = await _context.Alunos.ToListAsync();
 
@@ -39,23 +39,23 @@ namespace LabSchoolAPI.Controllers
 
                 }
 
-                List<AlunoDTO> alunosDTO = _mapper.Map<List<AlunoDTO>>(alunosQuery);
+                List<AlunoDTOResposta> alunosDTO = _mapper.Map<List<AlunoDTOResposta>>(alunosQuery);
                 return alunosDTO;
             }
 
             else
             {
-                List<AlunoDTO> alunosDTO = _mapper.Map<List<AlunoDTO>>(alunos);
+                List<AlunoDTOResposta> alunosDTO = _mapper.Map<List<AlunoDTOResposta>>(alunos);
                 return alunosDTO;
             }
         }
 
 
         [HttpGet("{codigo}")]
-        public async Task<ActionResult<AlunoDTO>> GetAluno(int codigo)
+        public async Task<ActionResult<AlunoDTOResposta>> GetAluno(int codigo)
         {
             var aluno = await _context.Alunos.FindAsync(codigo);
-            AlunoDTO alunoDTO = _mapper.Map<AlunoDTO>(aluno);
+            AlunoDTOResposta alunoDTO = _mapper.Map<AlunoDTOResposta>(aluno);
 
             if (aluno == null)
             {
@@ -67,7 +67,7 @@ namespace LabSchoolAPI.Controllers
 
 
         [HttpPut("{codigo}")]
-        public async Task<IActionResult> PutAluno(int codigo, AlunoDTOPut alunoDTOPut)
+        public async Task<IActionResult> PutAluno(int codigo, AlunoDTOPutRequisicao alunoDTOPut)
         {
             try
             {
@@ -81,7 +81,7 @@ namespace LabSchoolAPI.Controllers
                 _context.Alunos.Update(aluno);
                 await _context.SaveChangesAsync();
 
-                AlunoDTO alunoDTO = _mapper.Map<AlunoDTO>(aluno);
+                AlunoDTOResposta alunoDTO = _mapper.Map<AlunoDTOResposta>(aluno);
                 return Ok(alunoDTO);
             }
             catch
@@ -93,7 +93,7 @@ namespace LabSchoolAPI.Controllers
 
 
         [HttpPost]
-        public async Task<ActionResult<Aluno>> PostAluno(AlunoDTOPost alunoDTOPost)
+        public async Task<ActionResult<AlunoDTOResposta>> PostAluno(AlunoDTOPostRequisicao alunoDTOPost)
         {
             try
             {
@@ -115,7 +115,7 @@ namespace LabSchoolAPI.Controllers
                 _context.Entry(aluno).State = EntityState.Added;
                 await _context.SaveChangesAsync();
 
-                var alunoDTO = _mapper.Map<AlunoDTO>(aluno);
+                var alunoDTO = _mapper.Map<AlunoDTOResposta>(aluno);
 
                 return CreatedAtAction("GetAluno", new { codigo = aluno.Codigo }, alunoDTO);
             }

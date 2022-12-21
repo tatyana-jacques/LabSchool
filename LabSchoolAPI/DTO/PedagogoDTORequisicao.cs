@@ -1,6 +1,6 @@
 ﻿namespace LabSchoolAPI.DTO
 {
-    public class PedagogoDTOPost
+    public class PedagogoDTORequisicao
     {
         public string Nome { get; set; }
 
@@ -10,8 +10,6 @@
 
         public long CPF { get; set; }
 
-        public float Nota { get; set; }
-
-        public int Atendimentos { get; set; }
+      
     }
 }
