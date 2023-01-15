@@ -26,6 +26,19 @@ namespace LabSchoolAPI.Services.PedagogoService
         }
 
 
+        public async Task<ActionResult<PedagogoDTOResposta>> GetPedagogo(int codigo)
+        {
+            var pedagogo = await _context.Pedagogos.FindAsync(codigo);
+
+            if (pedagogo is null)
+            {
+                return null;
+            }
+            PedagogoDTOResposta pedagogoDTO = _mapper.Map<PedagogoDTOResposta>(pedagogo);
+            return pedagogoDTO;
+        }
+
+
         public async Task <ActionResult<PedagogoDTOResposta>> PutPedagogo(int codigo, PedagogoDTORequisicao pedagogoDTO)
         {
             Pedagogo pedagogo = await _context.Pedagogos.FindAsync(codigo);
@@ -47,23 +60,8 @@ namespace LabSchoolAPI.Services.PedagogoService
         }
 
 
-        public async Task <ActionResult<PedagogoDTOResposta>> GetPedagogo(int codigo)
-        {
-            var pedagogo = await _context.Pedagogos.FindAsync(codigo);
-            
-            if (pedagogo is null)
-            {
-                return null;
-            }
-            PedagogoDTOResposta pedagogoDTO = _mapper.Map<PedagogoDTOResposta>(pedagogo);
-            return pedagogoDTO;
-        }
-
-
-
         public async Task<ActionResult<PedagogoDTOResposta>> PostPedagogo(PedagogoDTORequisicao pedagogoDTOPost)
         {
-
             Pedagogo pedagogo = _mapper.Map<Pedagogo>(pedagogoDTOPost);
             var pedagogos = await _context.Pedagogos.ToListAsync();
 
@@ -80,7 +78,6 @@ namespace LabSchoolAPI.Services.PedagogoService
 
             return pedagogoDTO;
         }
-
 
         public async Task <ActionResult> DeletePedagogo(int codigo)
         {
