@@ -60,13 +60,15 @@ namespace LabSchoolAPI.Controllers
                 professor.Nome = professorDTO.Nome;
                 professor.Telefone=professorDTO.Telefone;
                 professor.DataNascimento= professorDTO.DataNascimento;
-                professor.Formacao = (EnumFormacaoAcademica)Enum.Parse(typeof(EnumFormacaoAcademica), professorDTO.Formacao.ToUpper());
+                professor.Formacao =(EnumFormacaoAcademica) Enum.Parse(typeof(EnumFormacaoAcademica), professorDTO.Formacao.ToUpper());
+                professor.Experiencia = (EnumExperiencia)Enum.Parse(typeof(EnumExperiencia), professorDTO.Experiencia.ToUpper());
+                professor.Estado = (EnumEstado)Enum.Parse(typeof(EnumEstado), professorDTO.Estado.ToUpper());
                 _context.Entry(professor).State = EntityState.Modified;
                 _context.Professores.Update(professor);
                 await _context.SaveChangesAsync();
 
                 ProfessorDTOResposta professorDTOResposta = _mapper.Map<ProfessorDTOResposta>(professor);
-                return Ok(professorDTO);
+                return Ok(professorDTOResposta);
             }
             catch
             {

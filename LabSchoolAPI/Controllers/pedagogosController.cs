@@ -1,10 +1,7 @@
-﻿using AutoMapper;
-using LabSchoolAPI.DTO;
-using LabSchoolAPI.LabSchool;
-using LabSchoolAPI.Models;
-using Microsoft.AspNetCore.Http;
+﻿using LabSchoolAPI.DTO;
+using LabSchoolAPI.Services.PedagogoService;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+
 
 namespace LabSchoolAPI.Controllers
 {
@@ -13,22 +10,17 @@ namespace LabSchoolAPI.Controllers
     public class pedagogosController : ControllerBase
     {
 
-        private readonly LabSchoolContext _context;
-        private readonly IMapper _mapper;
+       private readonly IPedagogosService _pedagogosService;
 
-        public pedagogosController(LabSchoolContext context, IMapper mapper)
+        public pedagogosController (IPedagogosService pedagogosService)
         {
-            _context = context;
-            _mapper = mapper;
+            _pedagogosService = pedagogosService;
         }
-
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PedagogoDTOResposta>>> GetPedagogos()
         {
-            var pedagogos = await _context.Pedagogos.ToListAsync();
-            List<PedagogoDTOResposta> pedagogosDTO = _mapper.Map<List<PedagogoDTOResposta>>(pedagogos);
-            return pedagogosDTO;
+            return await _pedagogosService.GetPedagogos();
 
         }
 
@@ -36,38 +28,28 @@ namespace LabSchoolAPI.Controllers
         [HttpGet("{codigo}")]
         public async Task<ActionResult<PedagogoDTOResposta>> GetPedagogo(int codigo)
         {
-            var pedagogo = await _context.Pedagogos.FindAsync(codigo);
-            PedagogoDTOResposta pedagogoDTO = _mapper.Map<PedagogoDTOResposta>(pedagogo);
+            var resultado = await _pedagogosService.GetPedagogo(codigo);
 
-            if (pedagogo == null)
+            if (resultado is null)
             {
                 return NotFound("Código de pedagogo inexistente.");
             }
 
-            return pedagogoDTO;
+            return resultado;
         }
 
 
         [HttpPut("{codigo}")]
-        public async Task<IActionResult> PutPedagogo(int codigo, PedagogoDTORequisicao pedagogoDTO)
+        public async Task<ActionResult<PedagogoDTOResposta>> PutPedagogo(int codigo, PedagogoDTORequisicao pedagogoDTO)
         {
             try
             {
-                Pedagogo pedagogo = await _context.Pedagogos.FindAsync(codigo);
-                if (pedagogo == null)
+               var resultado = await _pedagogosService.PutPedagogo(codigo, pedagogoDTO);
+                    if (resultado is null)
                 {
                     return NotFound("Pedagogo não encontrado.");
                 }
-
-                pedagogo.Nome= pedagogoDTO.Nome;
-                pedagogo.CPF=pedagogoDTO.CPF;
-                pedagogoDTO.DataNascimento = pedagogoDTO.DataNascimento;
-                _context.Entry(pedagogo).State = EntityState.Modified;
-                _context.Pedagogos.Update(pedagogo);
-                await _context.SaveChangesAsync();
-
-                PedagogoDTOResposta pedagogoDTOResposta = _mapper.Map<PedagogoDTOResposta>(pedagogo);
-                return Ok(pedagogoDTOResposta);
+                    return resultado;
             }
             catch
             {
@@ -76,26 +58,18 @@ namespace LabSchoolAPI.Controllers
 
         }
 
+
         [HttpPost]
         public async Task<ActionResult<PedagogoDTOResposta>> PostPedagogo(PedagogoDTORequisicao pedagogoDTOPost)
         {
             try
             {
-                Pedagogo pedagogo = _mapper.Map<Pedagogo>(pedagogoDTOPost);
-                var pedagogos = await _context.Pedagogos.ToListAsync();
-
-                var resultado = pedagogos.Where(x => x.CPF == pedagogoDTOPost.CPF).FirstOrDefault();
-                if (resultado is not null)
+                var resultado = await _pedagogosService.PostPedagogo(pedagogoDTOPost);
+                if (resultado is null)
                 {
                     return Conflict("CPF já registrado.");
                 }
-
-                _context.Entry(pedagogo).State = EntityState.Added;
-                await _context.SaveChangesAsync();
-
-                var pedagogoDTO = _mapper.Map<PedagogoDTOResposta>(pedagogo);
-
-                return CreatedAtAction("GetPedagogo", new { codigo = pedagogo.Codigo }, pedagogoDTO);
+                return resultado;
             }
 
             catch
@@ -105,15 +79,12 @@ namespace LabSchoolAPI.Controllers
         }
 
 
-
         [HttpDelete("{codigo}")]
-        public async Task<IActionResult> DeletePedagogo(int codigo)
+        public async Task<ActionResult> DeletePedagogo(int codigo)
         {
             try
             {
-                var pedagogo = await _context.Pedagogos.FindAsync(codigo);
-                _context.Pedagogos.Remove(pedagogo);
-                await _context.SaveChangesAsync();
+                var resultado = await _pedagogosService.DeletePedagogo(codigo);
                 return NoContent();
             }
             catch
@@ -123,10 +94,7 @@ namespace LabSchoolAPI.Controllers
             }
         }
 
-        private bool ProfessorExists(int id)
-        {
-            return _context.Pedagogos.Any(e => e.Codigo == id);
-        }
+       
     }
 }
 
