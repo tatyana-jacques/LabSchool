@@ -1,4 +1,5 @@
 using LabSchoolAPI.LabSchool;
+using LabSchoolAPI.Services.AlunoService;
 using LabSchoolAPI.Services.PedagogoService;
 using LabSchoolAPI.Services.ProfessorService;
 using Microsoft.EntityFrameworkCore;
@@ -16,8 +17,10 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IPedagogosService, PedagogosService>();
 builder.Services.AddScoped<IProfessoresService, ProfessoresService>();
+builder.Services.AddScoped<IAlunosService, AlunosService>();
 builder.Services.AddDbContext<LabSchoolContext>(options => options.UseSqlServer(
-    builder.Configuration.GetConnectionString("ServerConnection")));
+
+builder.Configuration.GetConnectionString("ServerConnection")));
 
 var app = builder.Build();
 

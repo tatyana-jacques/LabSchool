@@ -7,6 +7,7 @@ using LabSchoolAPI.DTO;
 using LabSchoolAPI.Services;
 using System.Data;
 using LabSchoolAPI.Enums;
+using LabSchoolAPI.Services.AlunoService;
 
 namespace LabSchoolAPI.Controllers
 {
@@ -14,12 +15,12 @@ namespace LabSchoolAPI.Controllers
     [ApiController]
     public class alunosController : ControllerBase
     {
-        private readonly LabSchoolContext _context;
+        private readonly IAlunosService _alunosService;
         private readonly IMapper _mapper;
 
-        public alunosController(LabSchoolContext context, IMapper mapper)
+        public alunosController(IAlunosService alunosService, IMapper mapper)
         {
-            _context = context;
+            _alunosService = alunosService;
             _mapper = mapper;
         }
 
@@ -27,62 +28,43 @@ namespace LabSchoolAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<AlunoDTOResposta>>> GetAlunos(string? situacao)
         {
-            var alunos = await _context.Alunos.ToListAsync();
+            var resultado = await _alunosService.GetAlunos(situacao);
 
-            if (situacao is not null)
+            if (resultado is null)
             {
-                var alunosQuery = alunos.Where(x => x.Situacao.ToString() == situacao.ToUpper());
-
-                if (alunosQuery.Count() == 0)
-                {
-                    return NotFound("Situação inexistente.");
-
-                }
-
-                List<AlunoDTOResposta> alunosDTO = _mapper.Map<List<AlunoDTOResposta>>(alunosQuery);
-                return alunosDTO;
+                return NotFound("Situação inexistente.");
             }
 
-            else
-            {
-                List<AlunoDTOResposta> alunosDTO = _mapper.Map<List<AlunoDTOResposta>>(alunos);
-                return alunosDTO;
-            }
+            return resultado;
+
         }
 
 
         [HttpGet("{codigo}")]
         public async Task<ActionResult<AlunoDTOResposta>> GetAluno(int codigo)
         {
-            var aluno = await _context.Alunos.FindAsync(codigo);
-            AlunoDTOResposta alunoDTO = _mapper.Map<AlunoDTOResposta>(aluno);
+            var resultado = await _alunosService.GetAluno(codigo);
 
-            if (aluno == null)
+            if (resultado is null)
             {
                 return NotFound("Código de aluno inexistente.");
             }
 
-            return alunoDTO;
+            return resultado;
         }
 
 
         [HttpPut("{codigo}")]
-        public async Task<IActionResult> PutAluno(int codigo, AlunoDTOPutRequisicao alunoDTOPut)
+        public async Task<ActionResult<AlunoDTOResposta>> PutAluno(int codigo, AlunoDTOPutRequisicao alunoDTOPut)
         {
             try
             {
-                Aluno aluno = await _context.Alunos.FindAsync(codigo);
-                if (aluno == null)
+                var resultado = await _alunosService.PutAluno(codigo, alunoDTOPut);
+                if (resultado is null)
                 {
                     return NotFound("Aluno não encontrado.");
                 }
-                aluno.Situacao = (EnumSituacaoMatricula)Enum.Parse(typeof(EnumSituacaoMatricula), alunoDTOPut.Situacao.ToUpper());
-                _context.Entry(aluno).State = EntityState.Modified;
-                _context.Alunos.Update(aluno);
-                await _context.SaveChangesAsync();
-
-                AlunoDTOResposta alunoDTO = _mapper.Map<AlunoDTOResposta>(aluno);
-                return Ok(alunoDTO);
+                return resultado;
             }
             catch
             {
@@ -97,27 +79,22 @@ namespace LabSchoolAPI.Controllers
         {
             try
             {
-                Aluno aluno = _mapper.Map<Aluno>(alunoDTOPost);
-                var alunos = await _context.Alunos.ToListAsync();
-                var validacaoAluno = AlunoPostValidacao.ValidacaoALuno(aluno);
+                var validacaoAluno = AlunoPostValidacao.ValidacaoALuno(alunoDTOPost);
 
                 if (validacaoAluno != string.Empty)
                 {
                     return StatusCode(StatusCodes.Status406NotAcceptable, validacaoAluno.ToString());
                 }
 
-                var resultado = alunos.Where(x => x.CPF == alunoDTOPost.CPF).FirstOrDefault();
-                if (resultado is not null)
+                Aluno resultado = await _alunosService.PostAluno(alunoDTOPost);
+                if (resultado is null)
                 {
                     return Conflict("CPF já registrado.");
                 }
 
-                _context.Entry(aluno).State = EntityState.Added;
-                await _context.SaveChangesAsync();
+                var alunoDTO = _mapper.Map<AlunoDTOResposta>(resultado);
 
-                var alunoDTO = _mapper.Map<AlunoDTOResposta>(aluno);
-
-                return CreatedAtAction("GetAluno", new { codigo = aluno.Codigo }, alunoDTO);
+                return CreatedAtAction("GetAluno", new { codigo = resultado.Codigo }, alunoDTO);
             }
 
             catch
@@ -132,22 +109,17 @@ namespace LabSchoolAPI.Controllers
         {
             try
             {
-                var aluno = await _context.Alunos.FindAsync(codigo);
-                _context.Alunos.Remove(aluno);
-                await _context.SaveChangesAsync();
+                var resultado = await _alunosService.DeleteAluno(codigo);
                 return NoContent();
             }
             catch
             {
-                return NotFound();
+                return NotFound("Aluno não encontrado.");
 
             }
 
         }
 
-        private bool AlunoExists(int codigo)
-        {
-            return _context.Alunos.Any(e => e.Codigo == codigo);
-        }
+        
     }
 }

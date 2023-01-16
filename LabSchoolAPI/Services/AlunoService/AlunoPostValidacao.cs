@@ -1,22 +1,18 @@
-﻿using Azure.Core;
-using LabSchoolAPI.Controllers;
-using LabSchoolAPI.Models;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Net.Http.Headers;
-using System.Net;
+﻿using LabSchoolAPI.DTO;
 
-namespace LabSchoolAPI.Services
+
+namespace LabSchoolAPI.Services.AlunoService
 {
     public static class AlunoPostValidacao
     {
 
 
-        public static string ValidacaoALuno(Aluno aluno) {
+        public static string ValidacaoALuno(AlunoDTOPostRequisicao aluno)
+        {
 
             string mensagem = string.Empty;
 
-            if ((aluno.CPF.ToString()).Length < 10 || (aluno.CPF.ToString()).Length >11)
+            if (aluno.CPF.ToString().Length < 10 || aluno.CPF.ToString().Length > 11)
             {
                 mensagem = "O CPF deve conter 11 números ou 10 números caso inicie com 0.";
             }
@@ -32,12 +28,12 @@ namespace LabSchoolAPI.Services
             }
 
 
-            return mensagem; 
+            return mensagem;
         }
 
-                
-       
-               
+
+
+
     }
 }
 
@@ -45,5 +41,5 @@ namespace LabSchoolAPI.Services
 
 
 
-              
-                
+
+

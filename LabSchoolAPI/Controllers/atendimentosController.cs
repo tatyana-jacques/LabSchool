@@ -8,15 +8,16 @@ using LabSchoolAPI.Services;
 using System.Data;
 using LabSchoolAPI.Enums;
 
+
 namespace LabSchoolAPI.Controllers
 {
 
     [Route("api/[controller]")]
     [ApiController]
 
-
     public class atendimentosController : ControllerBase
     {
+       
         private readonly LabSchoolContext _context;
         private readonly IMapper _mapper;
 
@@ -33,36 +34,35 @@ namespace LabSchoolAPI.Controllers
             try
             {
                 
-                Aluno aluno = await _context.Alunos.FindAsync(atendimento.codigoAluno);
-                if (aluno == null)
+                Aluno alunoModel = await _context.Alunos.FindAsync(atendimento.codigoAluno);
+                if (alunoModel == null)
                 {
                     return NotFound("Aluno não encontrado.");
                 }
 
-                Pedagogo pedagogo = await _context.Pedagogos.FindAsync(atendimento.codigoPedagogo);
-                if (pedagogo == null)
+                Pedagogo pedagogoModel = await _context.Pedagogos.FindAsync(atendimento.codigoPedagogo);
+                if (pedagogoModel == null)
                 {
                     return NotFound("Pedagogo não encontrado.");
                 }
 
-                aluno.Situacao = EnumSituacaoMatricula.ATENDIMENTO_PEDAGOGICO;
-                aluno.Atendimentos++;
-                _context.Entry(aluno).State = EntityState.Modified;
-                _context.Alunos.Update(aluno);
+                alunoModel.Situacao = EnumSituacaoMatricula.ATENDIMENTO_PEDAGOGICO;
+                alunoModel.Atendimentos++;
+                _context.Entry(alunoModel).State = EntityState.Modified;
+                _context.Alunos.Update(alunoModel);
                 await _context.SaveChangesAsync();
 
                
-                pedagogo.Atendimentos++;
-                _context.Entry(pedagogo).State = EntityState.Modified;
-                _context.Pedagogos.Update(pedagogo);
+                pedagogoModel.Atendimentos++;
+                _context.Entry(pedagogoModel).State = EntityState.Modified;
+                _context.Pedagogos.Update(pedagogoModel);
                 await _context.SaveChangesAsync();
 
-                AlunoDTOResposta alunoDTO = _mapper.Map<AlunoDTOResposta>(aluno);
-                PedagogoDTOResposta pedagogoDTO = _mapper.Map<PedagogoDTOResposta>(pedagogo);
+                AlunoDTOResposta aluno = _mapper.Map<AlunoDTOResposta>(alunoModel);
+                PedagogoDTOResposta pedagogo = _mapper.Map<PedagogoDTOResposta>(pedagogoModel);
 
-          
                 
-                return Ok(new { alunoDTO, pedagogoDTO});
+                return Ok(new { aluno, pedagogo});
             }
             catch
             {
